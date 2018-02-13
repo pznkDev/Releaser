@@ -1,7 +1,9 @@
-#!/usr/bin/env bash
 port=5432
-user=db_admin
-password=db_admin
-db_name=releaser
+host=localhost
+user=postgres
+database=releaser
 
-psql "dbname='$db_name' user='$user' password='$password' host='localhost'" -f create_tables.sql
+
+sudo -u $user createdb $database
+
+psql -h $host -p $port -U $user -d $database -f create_tables.sql

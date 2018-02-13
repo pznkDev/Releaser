@@ -1,4 +1,9 @@
-CREATE USER db_admin WITH password 'db_admin';
-GRANT ALL ON database releaser TO db_admin;
+SET ROLE TO 'postgres';
+SET client_encoding = 'UTF8';
+
+BEGIN;
+
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
 
 COMMIT;

@@ -8,8 +8,13 @@ def get_config(file_name='.config'):
         env.read_envfile(file_name)
 
     config = {
-        'HOST': env.str('HOST'),
-        'PORT': env.int('PORT')
+        'HOST': env.str('SERVER_HOST'),
+        'PORT': env.int('SERVER_PORT'),
+        'POSTGRES_DATABASE': env.str('POSTGRES_DATABASE'),
+        'POSTGRES_USER': env.str('POSTGRES_USER'),
+        'POSTGRES_PASSWORD': env.str('POSTGRES_PASSWORD'),
+        'POSTGRES_HOST': env.str('POSTGRES_HOST'),
+        'POSTGRES_PORT': env.str('POSTGRES_PORT')
     }
 
     return config

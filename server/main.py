@@ -3,6 +3,7 @@ import asyncio
 from aiohttp import web
 
 from server.settings import get_config
+from server.utils import init_app, destroy_app
 
 
 def create_app(loop):
@@ -10,6 +11,9 @@ def create_app(loop):
 
     config = get_config()
     app['config'] = config
+
+    app.on_startup.append(init_app)
+    app.on_cleanup.append(destroy_app)
 
     return app
 

@@ -1,9 +1,13 @@
 import asyncio
+import logging
 
 from aiohttp import web
 
 from server.settings import get_config
-from server.utils import init_app, destroy_app
+from server.utils import (
+    init_app,
+    destroy_app
+)
 
 
 def create_app(loop):
@@ -19,6 +23,8 @@ def create_app(loop):
 
 
 def run():
+    logging.basicConfig(level=logging.DEBUG)
+
     loop = asyncio.get_event_loop()
 
     app = create_app(loop)

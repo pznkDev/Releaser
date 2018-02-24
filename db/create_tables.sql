@@ -38,7 +38,7 @@ ALTER TABLE team OWNER TO postgres;
 CREATE TABLE account (
     account_id SERIAL PRIMARY KEY NOT NULL,
     name CHARACTER VARYING(50) NOT NULL,
-    nickname CHARACTER VARYING(24) NOT NULL,
+    nickname CHARACTER VARYING(24) UNIQUE NOT NULL,
     password CHARACTER VARYING(20) NOT NULL,
     role role DEFAULT 'viewer'::role
 );

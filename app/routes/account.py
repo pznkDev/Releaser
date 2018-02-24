@@ -13,5 +13,23 @@ routes = [
         method='GET',
         path=r'/{account_id:\d+}/',
         handler=account.get_one_account
+    ),
+    Route(
+        name='create_account',
+        method='POST',
+        path=r'/',
+        handler=account.create_account
+    ),
+    Route(
+        name='update_account',
+        method='PUT',
+        path=r'/{account_id:\d+}/',
+        handler=account.update_account
+    ),
+    Route(
+        name='delete_account',
+        method='DELETE',
+        path=r'/{account_id:\d+}/',
+        handler=account.delete_account
     )
 ]

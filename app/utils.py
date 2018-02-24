@@ -1,4 +1,8 @@
+from collections import namedtuple
+
 from aiopg import sa
+
+Route = namedtuple('Route', ['name', 'method', 'path', 'handler'])
 
 
 async def init_app(app):

@@ -7,7 +7,7 @@ from app.routes import setup_routes
 from app.settings import get_config
 from app.utils import (
     init_app,
-    destroy_app
+    close_app
 )
 
 
@@ -18,7 +18,7 @@ def create_app(loop):
     app['config'] = config
 
     app.on_startup.append(init_app)
-    app.on_cleanup.append(destroy_app)
+    app.on_cleanup.append(close_app)
 
     setup_routes(app)
 

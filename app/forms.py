@@ -20,3 +20,12 @@ class BugValidator(TrafaretValidator):
     team_id = t.Int()
     priority = t.Enum(*[e.name for e in Priority])
     time_created = t.String()
+
+
+class BugHistoryValidator(TrafaretValidator):
+    name = t.String(max_length=30)
+    description = t.String(max_length=240)
+    team_id = t.Int()
+    priority = t.Enum(*[e.name for e in Priority])
+    time_created = t.String()
+    time_closed = t.String()

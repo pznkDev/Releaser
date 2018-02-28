@@ -50,4 +50,18 @@ INSERT INTO "bug" (name, description, team_id, priority, time_created) VALUES
 INSERT INTO "bug" (name, description, team_id, priority, time_created) VALUES
   ('New design', 'Old design on stat page. Implement style: material design', 4, 'minor', '2018-01-22 14:08:24');
 
+-- bugs_history
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Issue #452', 'Change url for jira', 3, 'major', '2017-11-25', '2017-12-10');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Issue #482', 'Migration exception main.py', 1, 'minor', '2017-11-30', '2017-12-03');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Change color', 'Wrong color on dashboard', 3, 'minor', '2017-12-02', '2017-12-22');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Login Button exception', 'Exception displays in logs after pressing login button', 3, 'minor', '2017-12-06', '2017-12-20');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Design issue #135', 'Error with assets', 2, 'minor', '2017-12-18', '2017-12-30');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Session error', 'Sometimes, in session after 15 min, user becomes unathorized', 1, 'major', '2017-12-17', '2018-01-17');
+
 COMMIT;

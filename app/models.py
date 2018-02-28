@@ -3,6 +3,9 @@ import enum
 import sqlalchemy as sa
 
 __all__ = [
+    'Role',
+    'Status',
+    'Priority',
     'account',
     'team',
     'team_account',
@@ -49,7 +52,7 @@ account = sa.Table(
 
     sa.Column('account_id', sa.Integer),
     sa.Column('name', sa.String(50), nullable=False),
-    sa.Column('nickname', sa.String(20), unique=True, nullable=False),
+    sa.Column('username', sa.String(20), unique=True, nullable=False),
     sa.Column('password', sa.String(20), nullable=False),
     sa.Column('role', sa.Enum(Role), default="viewer"),
 

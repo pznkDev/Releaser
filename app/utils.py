@@ -1,14 +1,43 @@
+import os
 from collections import namedtuple
+from os.path import isfile
 
-from aiohttp_security import setup as setup_security, SessionIdentityPolicy
+from aiohttp_security import (
+    setup as setup_security,
+    SessionIdentityPolicy
+)
 from aiohttp_session import setup as setup_session
 from aiohttp_session.redis_storage import RedisStorage
 from aiopg import sa
 from aioredis import create_pool
+from envparse import env
 
 from services.auth import DBAuthorizationPolicy
 
 Route = namedtuple('Route', ['name', 'method', 'path', 'handler'])
+
+
+def setup_config(app, file_name='.config'):
+    path_to_file = os.path.join(app['project_root'], file_name)
+    if isfile(path_to_file):
+        env.read_envfile(file_name)
+
+    app['config'] = {
+        'HOST': env.str('SERVER_HOST'),
+        'PORT': env.int('SERVER_PORT'),
+
+        'POSTGRES_DATABASE': env.str('POSTGRES_DATABASE'),
+        'POSTGRES_USER': env.str('POSTGRES_USER'),
+        'POSTGRES_PASSWORD': env.str('POSTGRES_PASSWORD'),
+        'POSTGRES_HOST': env.str('POSTGRES_HOST'),
+        'POSTGRES_PORT': env.str('POSTGRES_PORT'),
+
+        'REDIS_HOST': env.str('REDIS_HOST'),
+        'REDIS_PORT': env.str('REDIS_PORT'),
+
+        'BOT_TOKEN': env.str('BOT_TOKEN'),
+        'BOT_CHANNEL': env.str('BOT_CHANNEL')
+    }
 
 
 async def init_app(app):

@@ -1,23 +1,37 @@
 import asyncio
 import logging
+import os
+import pathlib
 
+import aiohttp_jinja2
+import jinja2
 from aiohttp import web
 
-from server.settings import get_config
-from server.utils import (
+from app.routes import setup_routes
+from app.settings import get_config
+from app.utils import (
     init_app,
-    destroy_app
+    close_app
 )
+
+PROJ_ROOT = pathlib.Path(__file__).parent
+TEMPLATES_ROOT = os.path.join(PROJ_ROOT, 'front/dist')
 
 
 def create_app(loop):
     app = web.Application(loop=loop)
+    aiohttp_jinja2.setup(
+        app, loader=jinja2.FileSystemLoader(str(TEMPLATES_ROOT)))
 
     config = get_config()
     app['config'] = config
 
+    app['templates_root'] = TEMPLATES_ROOT
+
     app.on_startup.append(init_app)
-    app.on_cleanup.append(destroy_app)
+    app.on_cleanup.append(close_app)
+
+    setup_routes(app)
 
     return app
 

@@ -17,6 +17,9 @@ def get_config(file_name='.config'):
         'POSTGRES_HOST': env.str('POSTGRES_HOST'),
         'POSTGRES_PORT': env.str('POSTGRES_PORT'),
 
+        'REDIS_HOST': env.str('REDIS_HOST'),
+        'REDIS_PORT': env.str('REDIS_PORT'),
+
         'BOT_TOKEN': env.str('BOT_TOKEN'),
         'BOT_CHANNEL': env.str('BOT_CHANNEL')
     }

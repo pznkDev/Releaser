@@ -1,9 +1,10 @@
 from app.routes import account
 from routes import (
     auth,
-    main,
     bug,
-    bug_history
+    bug_history,
+    main,
+    timer
 )
 
 
@@ -15,6 +16,7 @@ def setup_routes(app):
     add_routes(app, account.routes, prefix='/api/accounts')
     add_routes(app, bug.routes, prefix='/api/bugs')
     add_routes(app, bug_history.routes, prefix='/api/bug_history')
+    add_routes(app, timer.routes, prefix='/api/timer')
 
 
 def add_routes(app, routes, prefix=''):

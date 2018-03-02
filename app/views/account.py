@@ -6,7 +6,10 @@ from psycopg2 import IntegrityError
 from app.db_handler.account import (
     select_accounts,
     select_account_by_id,
-    update_account_by_id, insert_account, remove_account)
+    update_account_by_id,
+    insert_account,
+    remove_account
+)
 from app.forms import AccountValidator
 
 

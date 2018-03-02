@@ -2,10 +2,16 @@ from http import HTTPStatus
 
 from aiohttp import web
 from aiohttp.web_response import json_response
-from aiohttp_security import remember, forget
+from aiohttp_security import (
+    remember,
+    forget
+)
 
 from models import Role
-from services.auth import check_credentials, require
+from services.auth import (
+    check_credentials,
+    require
+)
 
 
 async def signin(request):

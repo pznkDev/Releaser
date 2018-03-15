@@ -64,4 +64,8 @@ INSERT INTO "bug_history" (name, description, team_id, priority, time_created, t
 INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
   ('Session error', 'Sometimes, in session after 15 min, user becomes unathorized', 1, 'major', '2017-12-17', '2018-01-17');
 
+-- schedule
+INSERT INTO "schedule_update" (day, hour, minute) VALUES (2, 15, 0);
+INSERT INTO "schedule_update" (day, hour, minute) VALUES (4, 15, 0);
+
 COMMIT;

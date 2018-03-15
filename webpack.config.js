@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './front/app.js',
+  entry: './front/src/index.js',
   output: {
     path: __dirname + '/front/dist/static',
     filename: 'bundle.js'

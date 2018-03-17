@@ -12,7 +12,7 @@ from aiopg import sa
 from aioredis import create_pool
 from envparse import env
 
-from services.auth import DBAuthorizationPolicy
+from app.services.auth import DBAuthorizationPolicy
 
 Route = namedtuple('Route', ['name', 'method', 'path', 'handler'])
 

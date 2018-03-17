@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 
 
-class Bugs extends Component {
+class Timer extends Component {
     render() {
         return (
             <div>
-                <h2>Bugs</h2>
+                <h2>Timer</h2>
             </div>
         )
     }
 }
 
-export default Bugs
+export default Timer

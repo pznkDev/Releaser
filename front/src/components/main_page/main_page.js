@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import Header from '../header/header'
 
-import Header from './header'
+import routes from '../../config/routes'
 
 
 class Main extends Component {
@@ -9,7 +10,7 @@ class Main extends Component {
         return (
             <div>
                 <Header />
-                <h2>Main page</h2>
+                { routes }
             </div>
         )
     }

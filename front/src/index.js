@@ -3,9 +3,10 @@ import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import {createStore} from 'redux';
 import {BrowserRouter as Router} from "react-router-dom";
+import Main from './components/main_page/main_page';
 
 import reducers from './reducers';
-import routes from './config/routes';
+
 
 const store = createStore(reducers);
 
@@ -13,7 +14,7 @@ const store = createStore(reducers);
 ReactDOM.render(
     <Provider store={store}>
         <Router>
-            {routes}
+            <Main />
         </Router>
     </Provider>,
     document.getElementById('root')

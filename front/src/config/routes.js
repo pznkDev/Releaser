@@ -1,16 +1,16 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 
-import Main from '../components/main_page/main_page'
-import Statistic from '../components/statistic'
-import Bugs from "../components/bugs/bugs";
+import Statistic from '../components/statistic/index'
+import Bugs from '../components/bugs/bugs';
+import Timer from '../components/timer/timer';
 
 
 const routes = (
   <Switch>
-      <Route exact path="/" component={Main}/>
+      <Route exact path="/" component={Timer}/>
       <Route path="/bugs" component={Bugs}/>
-      <Route exact path="/statistics" component={Statistic}/>
+      <Route path="/statistics" component={Statistic}/>
   </Switch>
 );
 

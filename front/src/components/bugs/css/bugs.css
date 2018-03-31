@@ -1,0 +1,13 @@
+.container_full{
+    height:100%;
+    width:100%;
+    background-color: darkgray;
+}
+
+.container{
+    margin: 30px 60px 20px 60px
+}
+
+.block_name{
+    text-align: center;
+}

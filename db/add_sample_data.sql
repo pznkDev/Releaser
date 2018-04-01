@@ -63,6 +63,21 @@ INSERT INTO "bug_history" (name, description, team_id, priority, time_created, t
   ('Design issue #135', 'Error with assets', 2, 'minor', '2017-12-18', '2017-12-30');
 INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
   ('Session error', 'Sometimes, in session after 15 min, user becomes unathorized', 1, 'major', '2017-12-17', '2018-01-17');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Issue #334', 'Rendering bug_history errors', 4, 'minor', '2017-12-19', '2018-01-20');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Issue #134', 'ModalForm design fix', 2, 'minor', '2017-12-18', '2018-01-26');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Session error', 'Sometimes, in session after 30 min, user becomes unathorized', 1, 'major', '2017-01-11', '2018-01-16');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Voting error', 'Team KPISHNIK has not any rules', 4, 'major', '2017-01-12', '2018-01-15');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Header menus', 'Not all items in header menu', 1, 'major', '2017-01-20', '2018-01-23');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('API response trouble', '/api/bug_history/?page=3 error', 3, 'major', '2017-01-20', '2018-01-27');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Donation error', 'Users have no permissions to donate us', 1, 'major', '2017-01-22', '2018-01-24');
+
 
 -- schedule
 INSERT INTO "schedule_update" (day, hour, minute) VALUES (2, 15, 0);

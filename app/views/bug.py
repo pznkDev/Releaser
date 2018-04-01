@@ -18,12 +18,8 @@ from forms import BugValidator
 async def get_all_bugs(request):
     async with request.app['db'].acquire() as conn:
         all_bugs = await select_bugs(conn)
-        body = {
-            'bugs': all_bugs,
-            'pages': 10
-        }
         return web.json_response(
-            body,
+            all_bugs,
             dumps=partial(json.dumps, default=str)
         )
 

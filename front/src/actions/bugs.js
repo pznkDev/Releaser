@@ -31,7 +31,7 @@ function bugsReqFail(errorMessage) {
 export function getBugs(pageNumber=0) {
     return (dispatch) => {
         dispatch(bugsReqStarts());
-        return fetch(`/api/bugs/`, {'method': 'GET'})
+        return fetch(`/api/bug_history/?page=${pageNumber}`, {'method': 'GET'})
             .then((response) => {
                 if (response.ok){
                     response.json().then((json) => dispatch(bugsReqSuccess(json.bugs, json.pages)));

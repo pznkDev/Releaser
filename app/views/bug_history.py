@@ -16,8 +16,15 @@ from forms import BugHistoryValidator
 
 
 async def get_all_bugs(request):
+    page_param = request.query.get('page')
+    try:
+        page = int(page_param)
+    except (ValueError, TypeError):
+        page = 0
+
     async with request.app['db'].acquire() as conn:
-        all_bugs = await select_bug_history(conn)
+        all_bugs = await select_bug_history(conn, page)
+
         return web.json_response(
             all_bugs,
             dumps=partial(json.dumps, default=str)

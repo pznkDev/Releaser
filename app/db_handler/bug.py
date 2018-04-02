@@ -1,6 +1,6 @@
 from sqlalchemy import select
 
-from models import bug
+from app.models import bug
 
 
 async def select_bugs(conn):

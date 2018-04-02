@@ -1,4 +1,4 @@
-from models import schedule_update as schedule
+from app.models import schedule_update as schedule
 
 
 async def select_schedule(conn):

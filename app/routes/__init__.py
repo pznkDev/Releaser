@@ -1,5 +1,5 @@
-from app.routes import account
-from routes import (
+from app.routes import (
+    account,
     auth,
     bug,
     bug_history,

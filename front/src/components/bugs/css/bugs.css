@@ -1,22 +1,26 @@
 .container_full{
     height:100%;
     width:100%;
-    background-color: darkgray;
+    background-color: #424242;
 }
 
 .container{
-    margin: 30px 60px 20px 60px
+    min-height: 100%;
 }
 
 .block_name{
     text-align: center;
+    padding-top:30px;
+    color: #ffffff;
 }
 
 .table{
-
+    margin: 30px 60px 20px 60px;
+    min-height: 100%;
 }
 
 .pagination{
     margin-top: 20px;
+    padding-bottom: 20px;
     text-align: center;
 }

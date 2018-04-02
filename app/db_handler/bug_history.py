@@ -1,7 +1,7 @@
 import math
 from sqlalchemy import select
 
-from models import bug_history
+from app.models import bug_history
 
 BUGS_LIMIT = 10
 

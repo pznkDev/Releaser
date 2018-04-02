@@ -1,5 +1,5 @@
-from utils import Route
-from views.main import index
+from app.utils import Route
+from app.views.main import index
 
 index_routes = [
     Route(

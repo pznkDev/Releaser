@@ -7,7 +7,7 @@ from aiohttp_security import AbstractAuthorizationPolicy, permits
 from sqlalchemy import select, and_
 
 from app import models
-from models import account
+from app.models import account
 
 
 class UserStatus(enum.Enum):

@@ -117,7 +117,7 @@ release = sa.Table(
     'release', meta,
 
     sa.Column('release_id', sa.Integer),
-    sa.Column('tag', sa.String(15), nullable=False),
+    sa.Column('tag', sa.String(9), nullable=False, unique=True),
     sa.Column('time_created', sa.TIMESTAMP, nullable=False),
 
     sa.PrimaryKeyConstraint('release_id', name='release_id_pkey')

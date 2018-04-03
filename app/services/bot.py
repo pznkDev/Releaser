@@ -10,7 +10,7 @@ URL = 'https://api.telegram.org/bot{}/sendMessage?chat_id=@{}&text={}'
 async def fetch(session, url):
     async with async_timeout.timeout(4):
         async with session.get(url) as response:
-            return await json.loads(response.text())
+            return await response.json()
 
 
 async def send_message(app, message):

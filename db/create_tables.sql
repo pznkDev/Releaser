@@ -78,7 +78,7 @@ ALTER TABLE bug_history OWNER TO postgres;
 
 CREATE TABLE release (
     release_id SERIAL PRIMARY KEY NOT NULL,
-    tag CHARACTER VARYING(15) NOT NULL,
+    tag CHARACTER VARYING(9) NOT NULL UNIQUE,
     time_created timestamp without time zone NOT NULL
 );
 ALTER TABLE release OWNER TO postgres;

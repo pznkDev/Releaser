@@ -29,3 +29,8 @@ class BugHistoryValidator(TrafaretValidator):
     priority = t.Enum(*[e.name for e in Priority])
     time_created = t.String()
     time_closed = t.String()
+
+
+class ReleaseValidator(TrafaretValidator):
+    tag = t.String(max_length=9)
+    time_created = t.String()

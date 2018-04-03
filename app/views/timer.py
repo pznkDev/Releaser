@@ -12,9 +12,19 @@ SECONDS_IN_WEEK = 604800
 
 
 async def get_timer(request):
+    """ Returns timestamp of next release. If release started returns also max delay. """
+
     with await request.app['redis'] as conn:
         timer_value = await conn.execute('get', 'timer_value')
-        if timer_value:
+        release_started = await conn.execute('get', 'release_started')
+        timer_delay = await conn.execute('get', 'timer_delay')
+
+        if release_started:
+            return web.json_response({
+                'timer_value': timer_value.decode('utf-8'),
+                'timer_delay': timer_delay.decode('utf-8')})
+
+        if timer_value and float(timer_value) < datetime.now().timestamp():
             return web.json_response({'timer_value': timer_value.decode('utf-8')})
         else:
             timer_next_release = await get_schedule_release_time(request.app)

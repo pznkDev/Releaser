@@ -9,6 +9,7 @@ from app.models import release
 async def select_last_release(conn):
     release_row = await conn.execute(
         select([
+            release.c.release_id,
             release.c.tag,
             release.c.time_created
         ])

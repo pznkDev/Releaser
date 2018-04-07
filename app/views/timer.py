@@ -6,7 +6,7 @@ from http import HTTPStatus
 
 from aiohttp import web
 
-from db_handler.schedule import select_schedule
+from app.db_handler.schedule import select_schedule
 
 SECONDS_IN_WEEK = 604800
 

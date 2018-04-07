@@ -11,6 +11,11 @@ from app.db_handler.release import (
     insert_release,
     select_last_release
 )
+from app.db_handler.release_team_status import (
+    insert_team_release_status,
+    remove_all
+)
+from app.db_handler.team import select_teams
 from app.forms import ReleaseValidator
 from app.services.bot import send_message
 
@@ -19,6 +24,8 @@ MSG_UPDATING_STARTED = 'New Tag - %s ! Updating started at %s !'
 
 
 async def get_last_release(request):
+    """ Returns last release sorted by tag """
+
     async with request.app['db'].acquire() as conn:
         release = await select_last_release(conn)
 
@@ -35,6 +42,12 @@ async def get_last_release(request):
 
 
 async def create_release(request):
+    """
+        Creates row release in db. Sends notification in telegram.
+        Set all statuses in team_release_status to 'in_process'.
+        Set redis value release_started to True.
+    """
+
     request_data = await request.json()
 
     release_data = ReleaseValidator(
@@ -74,8 +87,25 @@ async def create_release(request):
                 status=HTTPStatus.CONFLICT
             )
 
-    # send notification that updating started
+        # set to all teams in team_release_status in process
+        last_release = await select_last_release(conn)
+        await remove_all(conn)
+        teams = await select_teams(conn)
+        async with conn.begin() as _:
+            for team in teams:
+                data = {
+                    'team_id': team['team_id'],
+                    'release_id': last_release['release_id'],
+                    'status': 'in_process'
+                }
+                await insert_team_release_status(conn, data)
+
+    # send notification in telegram
     await send_message(request.app,
-                       MSG_UPDATING_STARTED % (release_data.data['tag'], datetime.now().strftime("%Y-%m-%d %H:%M")))
+                       MSG_UPDATING_STARTED % (release_data.data['tag'],
+                                               datetime.now().strftime("%Y-%m-%d %H:%M")))
+
+    with await request.app['redis'] as conn:
+        await conn.execute('set', 'release_started', 1)
 
     return web.Response()

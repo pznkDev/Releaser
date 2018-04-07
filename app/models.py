@@ -12,8 +12,8 @@ __all__ = [
     'bug',
     'bug_history',
     'release',
-    'release_team_status',
-    'release_team_status_history',
+    'team_release_status',
+    'team_release_status_history',
     'schedule_update'
 ]
 
@@ -123,8 +123,8 @@ release = sa.Table(
     sa.PrimaryKeyConstraint('release_id', name='release_id_pkey')
 )
 
-release_team_status = sa.Table(
-    'release_team_status', meta,
+team_release_status = sa.Table(
+    'team_release_status', meta,
 
     sa.Column('id', sa.Integer),
     sa.Column('team_id', sa.Integer, nullable=False),
@@ -136,7 +136,7 @@ release_team_status = sa.Table(
     sa.Column('time_submit', sa.TIMESTAMP),
     sa.Column('time_delay', sa.TIMESTAMP),
 
-    sa.PrimaryKeyConstraint('id', name='release_team_status_id_pkey'),
+    sa.PrimaryKeyConstraint('id', name='team_release_status_id_pkey'),
     sa.ForeignKeyConstraint(
         ['team_id'], [team.c.team_id], name='team_id_fkey'
     ),
@@ -149,10 +149,10 @@ release_team_status = sa.Table(
     sa.ForeignKeyConstraint(
         ['submitter_id'], [account.c.account_id], name='account_id_fkey'
     )
-),
+)
 
-release_team_status_history = sa.Table(
-    'release_team_status_history', meta,
+team_release_status_history = sa.Table(
+    'team_release_status_history', meta,
 
     sa.Column('id', sa.Integer),
     sa.Column('team_id', sa.Integer, nullable=False),
@@ -164,7 +164,7 @@ release_team_status_history = sa.Table(
     sa.Column('time_submit', sa.TIMESTAMP),
     sa.Column('time_delay', sa.TIMESTAMP),
 
-    sa.PrimaryKeyConstraint('id', name='release_team_status_history_id_pkey'),
+    sa.PrimaryKeyConstraint('id', name='team_release_status_history_id_pkey'),
     sa.ForeignKeyConstraint(
         ['team_id'], [team.c.team_id], name='team_id_fkey'
     ),
@@ -177,7 +177,7 @@ release_team_status_history = sa.Table(
     sa.ForeignKeyConstraint(
         ['submitter_id'], [account.c.account_id], name='account_id_fkey'
     )
-),
+)
 
 schedule_update = sa.Table(
     'schedule_update', meta,

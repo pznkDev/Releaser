@@ -3,10 +3,11 @@ import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import {createStore, compose, applyMiddleware} from 'redux';
 import {BrowserRouter as Router} from "react-router-dom";
-import Main from './components/main_page/main_page';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
+import Header from "./components/header/header";
+import routes from "./config/routes";
 
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
@@ -15,7 +16,10 @@ const store = createStore(reducers, compose(applyMiddleware(thunk)));
 ReactDOM.render(
     <Provider store={store}>
         <Router>
-            <Main />
+            <div>
+                <Header />
+                { routes }
+            </div>
         </Router>
     </Provider>,
     document.getElementById('root')

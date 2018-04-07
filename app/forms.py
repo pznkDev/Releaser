@@ -34,3 +34,5 @@ class BugHistoryValidator(TrafaretValidator):
 class ReleaseValidator(TrafaretValidator):
     tag = t.String(max_length=9)
     time_created = t.String()
+    username = t.String
+    password = t.String

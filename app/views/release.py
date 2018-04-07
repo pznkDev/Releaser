@@ -6,11 +6,12 @@ from http import HTTPStatus
 from aiohttp import web
 from psycopg2 import IntegrityError
 
-from db_handler.release import (
+from app.db_handler.account import select_account_by_username_password
+from app.db_handler.release import (
     insert_release,
     select_last_release
 )
-from forms import ReleaseValidator
+from app.forms import ReleaseValidator
 from app.services.bot import send_message
 
 
@@ -38,7 +39,9 @@ async def create_release(request):
 
     release_data = ReleaseValidator(
         tag=request_data.get('tag'),
-        time_created=request_data.get('time_created')
+        username=request_data.get('login'),
+        password=request_data.get('password'),
+        time_created=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     )
     if not release_data.validate():
         return web.json_response(
@@ -48,7 +51,18 @@ async def create_release(request):
 
     async with request.app['db'].acquire() as conn:
         try:
-            result = await insert_release(conn, release_data.data)
+            account = await select_account_by_username_password(conn, release_data.data)
+            if not account or account['role'] != 'manager':
+                return web.json_response(
+                    {'error': 'Permission denied'},
+                    status=HTTPStatus.FORBIDDEN
+                )
+
+            release = {
+                'tag': release_data.data['tag'],
+                'time_created': release_data.data['time_created']
+            }
+            result = await insert_release(conn, release)
             if not result:
                 return web.json_response(
                     {'error': 'Release insert error.'},

@@ -25,6 +25,8 @@ INSERT INTO "account" (name, username, password, role) VALUES
   ('Gwen', 'gwen_design', 'gwen_design', 'dev');
 INSERT INTO "account" (name, username, password, role) VALUES
   ('Morty', 'morty_design', 'morty_design', 'dev');
+INSERT INTO "account" (name, username, password, role) VALUES
+  ('Admin', 'admin', 'io', 'manager');
 
 -- team_account
 INSERT INTO "team_account" (account_id, team_id) VALUES (1, 1);
@@ -78,6 +80,9 @@ INSERT INTO "bug_history" (name, description, team_id, priority, time_created, t
 INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
   ('Donation error', 'Users have no permissions to donate us', 1, 'major', '2017-01-22', '2018-01-24');
 
+INSERT INTO "release" (tag, time_created) VALUES ('18.11.1', '2018-01-24');
+INSERT INTO "release" (tag, time_created) VALUES ('18.12.1', '2018-02-03');
+INSERT INTO "release" (tag, time_created) VALUES ('18.12.2', '2018-02-07');
 
 -- schedule
 INSERT INTO "schedule_update" (day, hour, minute) VALUES (2, 15, 0);

@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Form, Header, Modal, Segment, TransitionablePortal} from 'semantic-ui-react'
+import {Button, Dropdown, Form, Header, Modal, Segment, TransitionablePortal} from 'semantic-ui-react'
+import {connect} from 'react-redux';
+
+import {getTeams} from '../../actions/teams';
+import styles from './css/vote_poll_modal.css';
+import {postConfig} from "../../config/utils";
 
 
 class VotePoll extends Component {
@@ -10,12 +15,47 @@ class VotePoll extends Component {
         this.state = {
             openPollModal: false,
             openNotification: false,
-            notification_message: ''
+            notification_message: '',
+            curRelease: {},
+            curTeamId: 0,
+            status: ''
         };
     }
 
+    componentWillMount() {
+        this.props.getTeams();
+        this.getLastRelease();
+    }
+
+    getLastRelease() {
+        fetch(`/api/release/`, {'method': 'GET'})
+            .then((response) => {
+                if (response.ok) {
+                    response.json().then((json) => this.setState({...this.state, curRelease: json}))
+                } else {
+                    console.log('loading last release error');
+                }
+            })
+            .catch(err =>
+                console.log('Fetch Error :-S', err)
+            );
+    }
+
     voteRequest(voteData) {
-        console.log(voteData);
+        let config = postConfig(voteData);
+        config.method = "PUT";
+
+        fetch(`/api/team_release_status/`, config)
+            .then((response) => {
+                if (response.ok) {
+                    this.notificationModal('Thank you for voting!');
+                } else {
+                    response.json().then(json => {
+                        this.notificationModal('Oops, something went wrong !' + json.error);
+                    });
+                }
+            })
+            .catch((err) => console.log('Fetch Error :-S', err));
     }
 
     pollModal = () => this.setState({...this.state, openPollModal: !this.state.openPollModal});
@@ -28,60 +68,80 @@ class VotePoll extends Component {
         });
 
     handleReleaseSubmit = (e) => {
-        let teamId = e.target.team_id.value;
-        let releaseId = e.target.release_id.value;
-        let status = e.target.status.value;
         let comment = e.target.comment.value;
-        let delay = e.target.delay.value;
+        let delay = 0;
+        if (this.state.status === 'unready'){
+            delay = e.target.delay.value;
+        }
         let login = e.target.login.value;
         let password = e.target.pass.value;
 
         this.pollModal();
 
         this.voteRequest({
-            'team_id': teamId,
-            'release_id': releaseId,
-            'status': status,
+            'team_id': this.state.curTeamId,
+            'release_id': this.state.curRelease.release_id,
+            'status': this.state.status,
             'comment': comment,
-            'delay': delay,
-            'login': login,
-            'password': password,
-            'time_created': new Date().toLocaleString()
+            'time_delay': delay,
+            'username': login,
+            'password': password
         });
 
     };
 
+    handleStatusChange = (e, {value}) => this.setState({...this.state, status: value});
+
+    handleTeamChange = (e, {value}) => this.setState({...this.state, curTeamId: value});
+
     render() {
-        let {openPollModal, openNotification, notification_message} = this.state;
-        console.log(openPollModal, openNotification);
+        let {openPollModal, openNotification, notification_message, curRelease, status} = this.state;
+        let teamsDropdown = [];
+        if (this.props.teams.length > 0) {
+            teamsDropdown = this.props.teams.map((team, key) => {
+                return {text: team.name, value: team.team_id}
+            });
+        }
+
         return (
             <div>
-                <Button onClick={this.pollModal}>Vote</Button>
+                {}
+                <Button onClick={this.pollModal}>Vote for Team</Button>
 
                 <Modal dimmer='blurring' open={openPollModal} size='small' onClose={this.pollModal}>
                     <Segment inverted>
-                        <Header as='h3' textAlign='center'>Vote</Header>
+                        <Header as='h3'
+                                textAlign='center'>{curRelease ? 'Vote for tag ' + curRelease.tag : 'Tag loading failed'}</Header>
                         <Form inverted onSubmit={this.handleReleaseSubmit}>
 
-                            <Form.Input label='Team'
-                                        placeholder='team id'
-                                        name='team_id'/>
+                            <Dropdown fluid selection placeholder='Select Team'
+                                      options={teamsDropdown}
+                                      onChange={this.handleTeamChange}
+                            />
 
-                            <Form.Input label='Release'
-                                        placeholder='release id'
-                                        name='release_id'/>
+                            <div className={styles.container}>
+                                <Form.Group inline>
+                                    <label>Status</label>
+                                    <Form.Radio label='Ready'
+                                                checked={status === 'ready'}
+                                                value='ready'
+                                                onChange={this.handleStatusChange}/>
+                                    <Form.Radio label='Unready'
+                                                checked={status === 'unready'}
+                                                value='unready'
+                                                onChange={this.handleStatusChange}/>
+                                </Form.Group>
+                            </div>
 
-                            <Form.Input label='Status'
-                                        placeholder='status'
-                                        name='status'/>
+                            {status === 'unready' &&
+                            <Form.Input label='Delay'
+                                        placeholder='delay'
+                                        name='delay'/>
+                            }
 
                             <Form.Input label='Comment'
                                         placeholder='comment'
                                         name='comment'/>
-
-                            <Form.Input label='Delay'
-                                        placeholder='delay'
-                                        name='delay'/>
 
                             <Form.Group widths='equal'>
 
@@ -110,8 +170,15 @@ class VotePoll extends Component {
 
             </div>
         );
-
     }
 }
 
-export default VotePoll;
+function mapStateToProps(state) {
+    return {
+        isFetching: state.teams.isFetching,
+        teams: state.teams.teams,
+        errorMessage: state.teams.errorMessage
+    }
+}
+
+export default connect(mapStateToProps, {getTeams})(VotePoll);

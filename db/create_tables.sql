@@ -91,8 +91,6 @@ CREATE TABLE team_release_status (
       REFERENCES release (release_id) ON DELETE CASCADE,
     status status DEFAULT 'in_process'::status,
     comment CHARACTER VARYING(240),
-    bug_id INTEGER
-      REFERENCES bug (bug_id) ON DELETE CASCADE,
     submitter_id INTEGER
       REFERENCES account (account_id) ON DELETE CASCADE,
     time_submit timestamp without time zone,
@@ -108,8 +106,6 @@ CREATE TABLE team_release_status_history (
       REFERENCES release (release_id) ON DELETE CASCADE,
     status status DEFAULT 'in_process'::status,
     comment CHARACTER VARYING(240),
-    bug_id INTEGER NOT NULL
-      REFERENCES bug (bug_id) ON DELETE CASCADE,
     submitter_id INTEGER NOT NULL
       REFERENCES account (account_id) ON DELETE CASCADE,
     time_submit timestamp without time zone NOT NULL,

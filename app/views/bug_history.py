@@ -5,14 +5,14 @@ from aiohttp import web
 import json
 from psycopg2 import IntegrityError
 
-from db_handler.bug_history import (
+from app.db_handler.bug_history import (
     select_bug_history,
     select_bug_history_by_id,
     insert_bug_history,
     update_bug_history_by_id,
     remove_bug_history
 )
-from forms import BugHistoryValidator
+from app.forms import BugHistoryValidator
 
 
 async def get_all_bugs(request):

@@ -3,7 +3,8 @@ from trafaret_validator import TrafaretValidator
 
 from app.models import (
     Role,
-    Priority
+    Priority,
+    Status
 )
 
 
@@ -34,5 +35,15 @@ class BugHistoryValidator(TrafaretValidator):
 class ReleaseValidator(TrafaretValidator):
     tag = t.String(max_length=9)
     time_created = t.String()
+    username = t.String()
+    password = t.String()
+
+
+class TeamReleaseStatusValidator(TrafaretValidator):
+    team_id = t.Int
+    release_id = t.Int
+    status = t.Enum(*[e.name for e in Status])
+    comment = t.String(250)
     username = t.String
     password = t.String
+    time_delay = t.Int

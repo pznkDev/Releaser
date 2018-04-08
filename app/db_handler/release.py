@@ -14,7 +14,7 @@ async def select_last_release(conn):
             release.c.time_created
         ])
         .select_from(release)
-        .order_by(desc(release.c.tag))
+        .order_by(desc(release.c.time_created))
     )
 
     release_last = await release_row.fetchone()

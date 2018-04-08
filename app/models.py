@@ -131,7 +131,6 @@ team_release_status = sa.Table(
     sa.Column('release_id', sa.Integer, nullable=False),
     sa.Column('status', sa.Enum(Status), default="in_process"),
     sa.Column('comment', sa.String(240)),
-    sa.Column('bug_id', sa.Integer),
     sa.Column('submitter_id', sa.Integer),
     sa.Column('time_submit', sa.TIMESTAMP),
     sa.Column('time_delay', sa.TIMESTAMP),
@@ -142,9 +141,6 @@ team_release_status = sa.Table(
     ),
     sa.ForeignKeyConstraint(
         ['release_id'], [release.c.release_id], name='release_id_fkey'
-    ),
-    sa.ForeignKeyConstraint(
-        ['bug_id'], [bug.c.bug_id], name='bug_id_fkey'
     ),
     sa.ForeignKeyConstraint(
         ['submitter_id'], [account.c.account_id], name='account_id_fkey'
@@ -159,7 +155,6 @@ team_release_status_history = sa.Table(
     sa.Column('release_id', sa.Integer, nullable=False),
     sa.Column('status', sa.Enum(Status), default="in_process"),
     sa.Column('comment', sa.String(240)),
-    sa.Column('bug_id', sa.Integer),
     sa.Column('submitter_id', sa.Integer),
     sa.Column('time_submit', sa.TIMESTAMP),
     sa.Column('time_delay', sa.TIMESTAMP),
@@ -170,9 +165,6 @@ team_release_status_history = sa.Table(
     ),
     sa.ForeignKeyConstraint(
         ['release_id'], [release.c.release_id], name='release_id_fkey'
-    ),
-    sa.ForeignKeyConstraint(
-        ['bug_id'], [bug.c.bug_id], name='bug_id_fkey'
     ),
     sa.ForeignKeyConstraint(
         ['submitter_id'], [account.c.account_id], name='account_id_fkey'

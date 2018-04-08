@@ -5,14 +5,14 @@ from http import HTTPStatus
 from aiohttp import web
 from psycopg2 import IntegrityError
 
-from db_handler.bug import (
+from app.db_handler.bug import (
     select_bugs,
     select_bug_by_id,
     insert_bug,
     update_bug_by_id,
     remove_bug
 )
-from forms import BugValidator
+from app.forms import BugValidator
 
 
 async def get_all_bugs(request):

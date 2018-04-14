@@ -11,7 +11,7 @@ from app.db_handler.release import (
     insert_release,
     select_last_release
 )
-from app.db_handler.release_team_status import (
+from app.db_handler.team_release_status import (
     insert_team_release_status,
     remove_all
 )

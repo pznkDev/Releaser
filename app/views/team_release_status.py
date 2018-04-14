@@ -5,7 +5,7 @@ from aiohttp import web
 from psycopg2 import IntegrityError
 
 from app.db_handler.account import select_account_by_username_password
-from app.db_handler.release_team_status import update_team_release_status_by_team_id
+from app.db_handler.team_release_status import update_team_release_status_by_team_id, select_release_team_statuses
 from app.db_handler.team import select_team_by_id
 from app.db_handler.team_account import select_row_by_account_id_team_id
 from app.db_handler.team_release_status_history import insert_team_release_status_history
@@ -14,6 +14,12 @@ from app.forms import TeamReleaseStatusValidator
 from app.services.bot import send_message
 
 MSG_TEAM_VOTED = 'Team %s %s at %s !'
+
+
+async def get_all_release_team_status(request):
+    async with request.app['db'].acquire() as conn:
+        all_release_team_statuses = await select_release_team_statuses(conn)
+        return web.json_response(all_release_team_statuses)
 
 
 async def update_release_team_status(request):
@@ -67,7 +73,7 @@ async def update_release_team_status(request):
             result = await update_team_release_status_by_team_id(conn, release_team_status)
             if not result:
                 return web.json_response(
-                    {'error': 'ReleaseTeamStatus not found.'},
+                    {'error': 'TeamReleaseStatus not found.'},
                     status=HTTPStatus.NOT_FOUND
                 )
 

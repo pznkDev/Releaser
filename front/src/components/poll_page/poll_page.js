@@ -11,9 +11,21 @@ class Poll extends Component {
     render() {
         return (
             <div className={styles.container_full}>
-                <ReleaseInit/>
-                <VotePoll/>
-                <ReleaseTeamStatus/>
+                <div className={styles.container_center}>
+                    <div className={styles.container_center_tag}>
+                        Some text
+                    </div>
+                    <div className={styles.container_center_timer}>
+                        Some text
+                    </div>
+                    <div className={styles.container_center_modals}>
+                        <ReleaseInit/>
+                        <VotePoll/>
+                    </div>
+                </div>
+                <div className={styles.container_bottom}>
+                    <ReleaseTeamStatus/>
+                </div>
             </div>
         )
     }

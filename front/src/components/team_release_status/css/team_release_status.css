@@ -1,3 +1,7 @@
 .container_horizontal{
-    margin: 250px 350px 20px 350px;
+    margin: 50px 350px 20px 350px;
+}
+
+.container_statuses{
+    margin-top: 50px;
 }

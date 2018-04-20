@@ -50,9 +50,12 @@ class TeamReleaseStatus extends Component {
     render() {
         return (
             <div className={styles.container_horizontal}>
-                <Grid columns='equal'>
-                    {this.renderTeamReleaseStatuses()}
-                </Grid>
+                <Header as='h1' inverted textAlign='center'>Statuses</Header>
+                <div className={styles.container_statuses}>
+                    <Grid columns='equal'>
+                        {this.renderTeamReleaseStatuses()}
+                    </Grid>
+                </div>
             </div>
         )
     }

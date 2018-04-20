@@ -20,9 +20,14 @@ async def get_timer(request):
         timer_delay = await conn.execute('get', 'timer_delay')
 
         if release_started:
-            return web.json_response({
-                'timer_value': timer_value.decode('utf-8'),
-                'timer_delay': timer_delay.decode('utf-8')})
+            if (timer_value + timer_delay) < datetime.now().timestamp():
+                return web.json_response({
+                    'timer_value': timer_value.decode('utf-8'),
+                    'timer_delay': 0})
+            else:
+                return web.json_response({
+                    'timer_value': timer_value.decode('utf-8'),
+                    'timer_delay': timer_delay.decode('utf-8')})
 
         if timer_value and float(timer_value) < datetime.now().timestamp():
             return web.json_response({'timer_value': timer_value.decode('utf-8')})

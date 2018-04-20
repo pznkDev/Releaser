@@ -105,7 +105,7 @@ class VotePoll extends Component {
 
         return (
             <div>
-                <Button onClick={this.pollModal} color='grey'>Vote for Team</Button>
+                <Button onClick={this.pollModal} secondary>Vote for Team</Button>
 
                 <Modal dimmer='blurring' open={openPollModal} size='small' onClose={this.pollModal}>
                     <Segment inverted>

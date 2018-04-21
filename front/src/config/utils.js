@@ -10,3 +10,14 @@ export function postConfig(data=null) {
     }
     return config;
 }
+
+export function predictTag(tagCur){
+    let vars = tagCur.split('.');
+    if (vars[2] === '2'){
+        vars[1] = String(+vars[1] + 1);
+        vars[2] = '1';
+    } else{
+        vars[2] = '2';
+    }
+    return vars.join('.')
+}

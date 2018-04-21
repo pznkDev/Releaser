@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import {getRelease} from '../../actions/release';
 import {Header} from "semantic-ui-react";
+import {predictTag} from "../../config/utils";
 
 
 class TagBlock extends Component {
@@ -23,7 +24,7 @@ class TagBlock extends Component {
                         <p>Current tag: {this.props.release.tag}</p>
                     </Header>
                     <Header as='h4' inverted color='grey'>
-                        <p>Next tag: 18.17.1</p>
+                        <p>Next tag: {predictTag(this.props.release.tag)}</p>
                     </Header>
                 </div>
             )

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {getRelease} from '../../actions/release';
+import {Header} from "semantic-ui-react";
 
 
 class TagBlock extends Component {
@@ -15,11 +16,22 @@ class TagBlock extends Component {
     }
 
     render() {
-        return (
-            <h2>
-                {this.props.release.tag}
-            </h2>
-        )
+        if (this.props.release.tag) {
+            return (
+                <div>
+                    <Header as='h1' inverted>
+                        <p>Current tag: {this.props.release.tag}</p>
+                    </Header>
+                    <Header as='h4' inverted color='grey'>
+                        <p>Next tag: 18.17.1</p>
+                    </Header>
+                </div>
+            )
+        } else {
+            return (
+                <div></div>
+            )
+        }
     }
 }
 

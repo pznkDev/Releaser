@@ -15,22 +15,21 @@ async def get_timer(request):
     """ Returns timestamp of next release. If release started returns also max delay. """
 
     with await request.app['redis'] as conn:
-        timer_value = await conn.execute('get', 'timer_value')
-        release_started = await conn.execute('get', 'release_started')
-        timer_delay = await conn.execute('get', 'timer_delay')
+        timer_value = float((await conn.execute('get', 'timer_value')).decode('utf-8'))
+        release_started = int((await conn.execute('get', 'release_started')).decode('utf-8'))
+        timer_delay = float((await conn.execute('get', 'timer_delay')).decode('utf-8'))
+
+        print(timer_value, release_started, timer_delay)
+
+        print(datetime.fromtimestamp(int(timer_value)).strftime('%Y-%m-%d %H:%M:%S'))
 
         if release_started:
-            if (timer_value + timer_delay) < datetime.now().timestamp():
-                return web.json_response({
-                    'timer_value': timer_value.decode('utf-8'),
-                    'timer_delay': 0})
-            else:
-                return web.json_response({
-                    'timer_value': timer_value.decode('utf-8'),
-                    'timer_delay': timer_delay.decode('utf-8')})
+            return web.json_response({
+                'timer_value': timer_value,
+                'timer_delay': timer_delay})
 
-        if timer_value and float(timer_value) < datetime.now().timestamp():
-            return web.json_response({'timer_value': timer_value.decode('utf-8')})
+        if timer_value and timer_value < datetime.now().timestamp():
+            return web.json_response({'timer_value': timer_value})
         else:
             timer_next_release = await get_schedule_release_time(request.app)
             if timer_next_release:
@@ -67,7 +66,7 @@ async def update_timer(request):
 
 async def reset_timer(request):
     with await request.app['redis'] as conn:
-        await conn.execute('set', 'timer_value', '')
+        await conn.execute('set', 'timer_value', 0)
         return web.Response()
 
 
@@ -81,7 +80,7 @@ async def get_schedule_release_time(app):
         min_diff = float('inf')
 
         for event in schedule:
-            event_date = now + timedelta(days=event['day'] - now.weekday() + 1)
+            event_date = now + timedelta(days=event['day'] - (now.weekday() + 1))
             event_date = event_date.replace(hour=int(event['hour']), minute=int(event['minute']))
 
             diff = event_date.timestamp() - now.timestamp()

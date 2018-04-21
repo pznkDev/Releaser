@@ -60,7 +60,6 @@ class ReleaseInit extends Component {
 
         return (
             <div>
-                <h2>Modals</h2>
                 <Button onClick={this.releaseModal} secondary>Init Release Voting</Button>
 
                 <Modal dimmer='blurring' open={openReleaseModal} size='small' onClose={this.releaseModal}>

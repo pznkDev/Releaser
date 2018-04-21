@@ -51,6 +51,8 @@ async def init_app(app):
     setup_session(app,
                   RedisStorage(app['redis']))
 
+    await set_redis_init_values(app)
+
 
 async def init_db(app):
     conf = app['config']
@@ -82,3 +84,24 @@ async def close_db(app):
 async def close_redis(app):
     app['redis'].close()
     await app['redis'].wait_closed()
+
+
+async def set_redis_init_values(app):
+    with await app['redis'] as conn:
+        timer_value = await conn.execute('get', 'timer_value')
+        if timer_value is None:
+            await conn.execute('set',
+                               'timer_delay',
+                               0)
+
+        release_started = await conn.execute('get', 'release_started')
+        if release_started is None:
+            await conn.execute('set',
+                               'release_started',
+                               0)
+
+        timer_delay = await conn.execute('get', 'timer_delay')
+        if timer_delay is None:
+            await conn.execute('set',
+                               'timer_delay',
+                               0)

@@ -1,0 +1,26 @@
+.bugs_container{
+    height:100%;
+    width:100%;
+    background-color: #424242;
+}
+
+.bugs_content_container{
+    min-height: 100%;
+}
+
+.bugs_header_name{
+    text-align: center;
+    padding-top:30px;
+    color: #ffffff;
+}
+
+.bugs_table{
+    margin: 30px 60px 20px 60px;
+    min-height: 100%;
+}
+
+.bugs_pagination{
+    margin-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}

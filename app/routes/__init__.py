@@ -1,11 +1,13 @@
-from app.routes import account
-from routes import (
+from app.routes import (
+    account,
     auth,
     bug,
     bug_history,
     main,
-    timer
-)
+    release,
+    team,
+    timer,
+    team_release_status)
 
 
 def setup_routes(app):
@@ -16,6 +18,9 @@ def setup_routes(app):
     add_routes(app, account.routes, prefix='/api/accounts')
     add_routes(app, bug.routes, prefix='/api/bugs')
     add_routes(app, bug_history.routes, prefix='/api/bug_history')
+    add_routes(app, release.routes, prefix='/api/release')
+    add_routes(app, team.routes, prefix='/api/team')
+    add_routes(app, team_release_status.routes, prefix='/api/team_release_status')
     add_routes(app, timer.routes, prefix='/api/timer')
 
 

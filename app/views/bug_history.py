@@ -5,19 +5,26 @@ from aiohttp import web
 import json
 from psycopg2 import IntegrityError
 
-from db_handler.bug_history import (
+from app.db_handler.bug_history import (
     select_bug_history,
     select_bug_history_by_id,
     insert_bug_history,
     update_bug_history_by_id,
     remove_bug_history
 )
-from forms import BugHistoryValidator
+from app.forms import BugHistoryValidator
 
 
 async def get_all_bugs(request):
+    page_param = request.query.get('page')
+    try:
+        page = int(page_param)
+    except (ValueError, TypeError):
+        page = 0
+
     async with request.app['db'].acquire() as conn:
-        all_bugs = await select_bug_history(conn)
+        all_bugs = await select_bug_history(conn, page)
+
         return web.json_response(
             all_bugs,
             dumps=partial(json.dumps, default=str)

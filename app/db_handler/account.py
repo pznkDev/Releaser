@@ -1,4 +1,7 @@
-from sqlalchemy import select
+from sqlalchemy import (
+    select,
+    sql
+)
 
 from app.models import account
 
@@ -23,6 +26,23 @@ async def select_account_by_id(conn, account_id):
                 account.c.role.name])
         .select_from(account)
         .where(account.c.account_id == account_id)
+    )
+
+    account_one = await account_row.fetchone()
+    if account_one:
+        return dict(account_one.items())
+
+
+async def select_account_by_username_password(conn, account_data):
+    account_row = await conn.execute(
+        select([account.c.account_id,
+                account.c.name,
+                account.c.role.name])
+        .select_from(account)
+        .where(sql.and_(
+            account.c.username == account_data['username'],
+            account.c.password == account_data['password'])
+        )
     )
 
     account_one = await account_row.fetchone()

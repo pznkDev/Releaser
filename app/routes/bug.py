@@ -1,5 +1,5 @@
-from views import bug
-from utils import Route
+from app.views import bug
+from app.utils import Route
 
 routes = [
     Route(

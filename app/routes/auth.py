@@ -1,6 +1,6 @@
 from app.views import auth
 
-from utils import Route
+from app.utils import Route
 
 routes = [
     Route(

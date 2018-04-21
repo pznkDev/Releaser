@@ -78,7 +78,7 @@ ALTER TABLE bug_history OWNER TO postgres;
 
 CREATE TABLE release (
     release_id SERIAL PRIMARY KEY NOT NULL,
-    tag CHARACTER VARYING(15) NOT NULL,
+    tag CHARACTER VARYING(9) NOT NULL UNIQUE,
     time_created timestamp without time zone NOT NULL
 );
 ALTER TABLE release OWNER TO postgres;
@@ -91,11 +91,9 @@ CREATE TABLE team_release_status (
       REFERENCES release (release_id) ON DELETE CASCADE,
     status status DEFAULT 'in_process'::status,
     comment CHARACTER VARYING(240),
-    bug_id INTEGER NOT NULL
-      REFERENCES bug (bug_id) ON DELETE CASCADE,
-    submitter_id INTEGER NOT NULL
+    submitter_id INTEGER
       REFERENCES account (account_id) ON DELETE CASCADE,
-    time_submit timestamp without time zone NOT NULL,
+    time_submit timestamp without time zone,
     time_delay INTEGER
 );
 ALTER TABLE team_release_status OWNER TO postgres;
@@ -108,8 +106,6 @@ CREATE TABLE team_release_status_history (
       REFERENCES release (release_id) ON DELETE CASCADE,
     status status DEFAULT 'in_process'::status,
     comment CHARACTER VARYING(240),
-    bug_id INTEGER NOT NULL
-      REFERENCES bug (bug_id) ON DELETE CASCADE,
     submitter_id INTEGER NOT NULL
       REFERENCES account (account_id) ON DELETE CASCADE,
     time_submit timestamp without time zone NOT NULL,

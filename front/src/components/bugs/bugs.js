@@ -104,13 +104,13 @@ class Bugs extends Component {
 
     render() {
         return (
-            <div className={styles.container_full}>
-                <h2 className={styles.block_name}>Bugs History</h2>
-                <div className={styles.container}>
-                    <div className={styles.table}>
+            <div className={styles.bugs_container}>
+                <h2 className={styles.bugs_header_name}>Bugs History</h2>
+                <div className={styles.bugs_content_container}>
+                    <div className={styles.bugs_table}>
                         {this.renderBugsTable()}
                     </div>
-                    <div className={styles.pagination}>
+                    <div className={styles.bugs_pagination}>
                         {this.renderPages()}
                     </div>
                 </div>

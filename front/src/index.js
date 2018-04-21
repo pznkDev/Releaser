@@ -15,7 +15,7 @@ const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 
 ReactDOM.render(
-    <div className={styles.container_full}>
+    <div className={styles.main_container}>
         <Provider store={store}>
             <Router>
                 <div>

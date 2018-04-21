@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Segment } from 'semantic-ui-react'
-import styles from './css/header.css';
+import './css/header.css';
 
 
 class Header extends Component {
@@ -23,7 +23,7 @@ class Header extends Component {
         const { activeItem } = this.state;
 
         return (
-            <div className={styles.nav_header}>
+            <div className='nav_header'>
                 <Segment inverted>
                     <Menu inverted pointing secondary>
                         <Link to="/">

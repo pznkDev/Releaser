@@ -94,7 +94,6 @@ class FlipClock extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.timer) {
-            console.log(new Date(nextProps.timer.tiner_value));
             let timer_value = nextProps.timer.timer_value;
             if (nextProps.timer.timer_delay !== undefined) {
                 timer_value += nextProps.timer.timer_delay;
@@ -157,6 +156,18 @@ class FlipClock extends Component {
 
     }
 
+    renderAdditionalTimerMsg() {
+        const delay = this.props.timer.timer_delay;
+        if (delay === undefined) {
+            return <div></div>
+        } else {
+            return (
+                this.props.timer.timer_delay === 0 ?
+                    <Header as='h3' inverted color='grey'>(Updating . . .)</Header> :
+                    <Header as='h3' inverted color='grey'>(Delay for {this.props.timer.timer_delay})</Header>)
+        }
+    }
+
     render() {
         const {hours, minutes, seconds, hoursShuffle, minutesShuffle, secondsShuffle} = this.state;
         return (
@@ -178,10 +189,7 @@ class FlipClock extends Component {
                         shuffle={secondsShuffle}
                     />
                 </div>
-                {this.props.timer.timer_delay === 0 ?
-                    <Header as='h3' inverted color='grey'>(Updating . . .)</Header> :
-                    <Header as='h3' inverted color='grey'>(Delay for {this.props.timer.timer_delay})</Header>
-                }
+                {this.renderAdditionalTimerMsg()}
             </div>
         );
     }

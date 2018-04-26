@@ -87,6 +87,15 @@ async def update_release_team_status(request):
                                                  release_team_status['status'],
                                                  datetime.now().strftime("%Y-%m-%d %H:%M")))
 
+            # update time_delay in redis if bigger than current
+            if release_team_status['time_delay']:
+                with await request.app['redis'] as redis_conn:
+                    timer_delay = float((await redis_conn.execute('get', 'timer_delay')).decode('utf-8'))
+                    if release_team_status['time_delay'] > timer_delay:
+                        await redis_conn.execute('set',
+                                                 'timer_delay',
+                                                 release_team_status['time_delay'])
+
             return web.Response()
 
         except IntegrityError:

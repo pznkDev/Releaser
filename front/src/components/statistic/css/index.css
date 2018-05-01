@@ -1,0 +1,15 @@
+.stat_cont{
+    height:100%;
+    width:100%;
+}
+
+.stat_params_cont{
+    height:250px;
+    width:100%;
+}
+
+.stat_header_name{
+    text-align: center;
+    padding-top:30px;
+    color: #ffffff;
+}

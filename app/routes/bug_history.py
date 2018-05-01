@@ -9,6 +9,12 @@ routes = [
         handler=bug_history.get_all_bugs
     ),
     Route(
+        name='get_all_bugs_stat',
+        method='GET',
+        path='/stat/',
+        handler=bug_history.get_all_bugs_stat
+    ),
+    Route(
         name='get_one_bug_history',
         method='GET',
         path=r'/{bug_id:\d+}/',

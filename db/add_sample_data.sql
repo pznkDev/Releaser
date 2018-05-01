@@ -79,6 +79,9 @@ INSERT INTO "bug_history" (name, description, team_id, priority, time_created, t
   ('API response trouble', '/api/bug_history/?page=3 error', 3, 'major', '2017-01-20', '2018-01-27');
 INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
   ('Donation error', 'Users have no permissions to donate us', 1, 'major', '2017-01-22', '2018-01-24');
+INSERT INTO "bug_history" (name, description, team_id, priority, time_created, time_closed) VALUES
+  ('Issue #132', 'Response 404 time by time', 2, 'critical', '2018-04-25', '2018-04-28');
+
 
 INSERT INTO "release" (tag, time_created) VALUES ('18.11.1', '2018-01-24');
 INSERT INTO "release" (tag, time_created) VALUES ('18.12.1', '2018-02-03');

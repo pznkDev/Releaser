@@ -7,7 +7,9 @@ from app.routes import (
     release,
     team,
     timer,
-    team_release_status)
+    team_release_status,
+    other
+)
 
 
 def setup_routes(app):
@@ -22,6 +24,8 @@ def setup_routes(app):
     add_routes(app, team.routes, prefix='/api/team')
     add_routes(app, team_release_status.routes, prefix='/api/team_release_status')
     add_routes(app, timer.routes, prefix='/api/timer')
+
+    add_routes(app, other.routes)
 
 
 def add_routes(app, routes, prefix=''):

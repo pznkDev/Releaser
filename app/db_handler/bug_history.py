@@ -34,6 +34,25 @@ async def select_bug_history(conn, page):
     return body
 
 
+async def select_bug_history_month(conn):
+    bug_rows = await conn.execute('''
+        SELECT
+          bug_history.bug_id,
+          bug_history.name,
+          bug_history.description,
+          team.name as team_name,
+          bug_history.priority,
+          bug_history.time_created,
+          bug_history.time_closed
+        FROM bug_history
+        INNER JOIN team ON bug_history.team_id=team.team_id
+        WHERE
+           bug_history.time_created >= (NOW() - INTERVAL '30 days')
+    ''')
+
+    return [dict(row.items()) for row in bug_rows]
+
+
 async def select_bug_history_by_id(conn, bug_id):
     bug_row = await conn.execute(
         select([

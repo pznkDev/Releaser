@@ -5,12 +5,14 @@ from aiohttp import web
 import json
 from psycopg2 import IntegrityError
 
+from app.db_handler.bug import select_bugs
 from app.db_handler.bug_history import (
     select_bug_history,
     select_bug_history_by_id,
     insert_bug_history,
     update_bug_history_by_id,
-    remove_bug_history
+    remove_bug_history,
+    select_bug_history_month
 )
 from app.forms import BugHistoryValidator
 
@@ -27,6 +29,20 @@ async def get_all_bugs(request):
 
         return web.json_response(
             all_bugs,
+            dumps=partial(json.dumps, default=str)
+        )
+
+
+async def get_all_bugs_stat(request):
+    async with request.app['db'].acquire() as conn:
+        # get all bugs from history
+        bugs_closed_for_month = await select_bug_history_month(conn)
+
+        # get opened bugs
+        bugs_opened = await select_bugs(conn)
+
+        return web.json_response(
+            bugs_closed_for_month + bugs_opened,
             dumps=partial(json.dumps, default=str)
         )
 

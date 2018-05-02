@@ -19,16 +19,12 @@ async def get_timer(request):
         release_started = int((await conn.execute('get', 'release_started')).decode('utf-8'))
         timer_delay = float((await conn.execute('get', 'timer_delay')).decode('utf-8'))
 
-        print(timer_value, release_started, timer_delay)
-
-        print(datetime.fromtimestamp(int(timer_value)).strftime('%Y-%m-%d %H:%M:%S'))
-
         if release_started:
             return web.json_response({
                 'timer_value': timer_value,
                 'timer_delay': timer_delay})
 
-        if timer_value and timer_value < datetime.now().timestamp():
+        if timer_value and timer_value > datetime.now().timestamp():
             return web.json_response({'timer_value': timer_value})
         else:
             timer_next_release = await get_schedule_release_time(request.app)

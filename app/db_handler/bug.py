@@ -4,19 +4,16 @@ from app.models import bug
 
 
 async def select_bugs(conn):
-    bug_rows = await conn.execute(
-        select([
-            bug.c.bug_id,
-            bug.c.name,
-            bug.c.description,
-            bug.c.team_id,
-            bug.c.priority.name,
-            bug.c.time_created
-        ])
-        .select_from(
-            bug
-        )
-    )
+    bug_rows = await conn.execute('''
+        SELECT
+          bug.name,
+          bug.description,
+          team.name as team_name,
+          bug.priority,
+          bug.time_created
+        FROM bug
+        INNER JOIN team ON bug.team_id=team.team_id
+    ''')
     return [dict(row.items()) for row in bug_rows]
 
 

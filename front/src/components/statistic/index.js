@@ -16,7 +16,8 @@ class Statistic extends Component {
         this.state = {
             period: 'month',
             priority: 'all',
-            team: 'all'
+            team: 'all',
+            bugsCurrent: []
         };
     }
 
@@ -24,6 +25,30 @@ class Statistic extends Component {
         this.props.actions.getTeams();
         this.props.actions.getBugHistory();
     }
+
+    componentWillReceiveProps(nextProps){
+        if (this.props.bugs.length === 0 && nextProps.bugs.length > 0){
+            this.setState({...this.state, bugsCurrent: nextProps.bugs});
+        }
+    }
+
+    filter(newData){
+        let {period, priority, team} = {...this.state, ...newData};
+        let bugs = this.props.bugs;
+
+        let bugsCurrentUpdated = bugs.filter(bug => {
+            if ((priority !== 'all') && (bug.priority !== priority)) return false;
+            if ((team !== 'all') && (bug.team_name !== team)) return false;
+            return true
+        });
+
+        this.setState({...this.state, ...newData, bugsCurrent: bugsCurrentUpdated})
+    }
+
+    handlePeriodChange = (e, { value }) => this.filter({period:value});
+    handlePriorityChange = (e, { value }) => this.filter({priority:value});
+    handleTeamChange = (e, { value }) => this.filter({team:value});
+
 
     renderTeams() {
         return this.props.teams.map((team, key) => {
@@ -33,6 +58,8 @@ class Statistic extends Component {
                               label={team.name}
                               name='checkboxTeam'
                               value={team.name}
+                              checked={this.state.team === team.name}
+                              onChange={this.handleTeamChange}
                     />
                 </Form.Field>
             )
@@ -40,6 +67,7 @@ class Statistic extends Component {
     }
 
     renderOptionsMenu() {
+        let {period, priority, team, bugsCurrent} = this.state;
         return (
             <Grid columns='equal' padded='horizontally'>
                 <Grid.Column>
@@ -52,6 +80,8 @@ class Statistic extends Component {
                                       label='24 hours'
                                       name='checkboxPeriod'
                                       value='day'
+                                      checked={period === 'day'}
+                                      onChange={this.handlePeriodChange}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -59,6 +89,8 @@ class Statistic extends Component {
                                       label='Week'
                                       name='checkboxPeriod'
                                       value='week'
+                                      checked={period === 'week'}
+                                      onChange={this.handlePeriodChange}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -66,6 +98,9 @@ class Statistic extends Component {
                                       label='Month'
                                       name='checkboxPeriod'
                                       value='month'
+                                      checked={period === 'month'}
+                                      onChange={this.handlePeriodChange}
+
                             />
                         </Form.Field>
                     </Form>
@@ -80,6 +115,9 @@ class Statistic extends Component {
                                       label='All'
                                       name='checkboxPriority'
                                       value='all'
+                                      checked={priority === 'all'}
+                                      onChange={this.handlePriorityChange}
+
                             />
                         </Form.Field>
                         <Form.Field>
@@ -87,6 +125,9 @@ class Statistic extends Component {
                                       label='minor'
                                       name='checkboxPriority'
                                       value='minor'
+                                      checked={priority === 'minor'}
+                                      onChange={this.handlePriorityChange}
+
                             />
                         </Form.Field>
                         <Form.Field>
@@ -94,6 +135,8 @@ class Statistic extends Component {
                                       label='major'
                                       name='checkboxPriority'
                                       value='major'
+                                      checked={priority === 'major'}
+                                      onChange={this.handlePriorityChange}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -101,6 +144,8 @@ class Statistic extends Component {
                                       label='critical'
                                       name='checkboxPriority'
                                       value='critical'
+                                      checked={priority === 'critical'}
+                                      onChange={this.handlePriorityChange}
                             />
                         </Form.Field>
                     </Form>
@@ -115,6 +160,8 @@ class Statistic extends Component {
                                       label='All'
                                       name='checkboxPriority'
                                       value='all'
+                                      checked={team === 'all'}
+                                      onChange={this.handleTeamChange}
                             />
                         </Form.Field>
                         {this.renderTeams()}

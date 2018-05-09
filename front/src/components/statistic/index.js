@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import {
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Radar, RadarChart, PolarGrid,
+    PolarAngleAxis, PolarRadiusAxis, AreaChart, Area
+} from 'recharts';
 
 
 import {getBugHistory} from '../../actions/bug_history'
@@ -64,9 +67,6 @@ class Statistic extends Component {
 
     renderOptionsMenu() {
         let {period, priority, team, bugsCurrent} = this.state;
-        if (this.props.bugs.length && period==='month' && priority==='all' && team==='all'){
-            this.setState({...this.state, bugsCurrent: this.props.bugs})
-        }
 
         return (
             <Grid columns='equal' padded='horizontally'>
@@ -185,7 +185,6 @@ class Statistic extends Component {
                         data[j][this.state.bugsCurrent[i].priority] += 1
                     }
                 }
-
             }
 
             return (
@@ -206,6 +205,106 @@ class Statistic extends Component {
         return <h2>Not enough data for barChart</h2>
     }
 
+    renderRadarChart() {
+        if (this.state.bugsCurrent.length) {
+            let data = [
+                {priority: 'minor'},
+                {priority: 'major'},
+                {priority: 'critical'},
+            ];
+            for (let i = 0; i < this.props.teams.length; i++) {
+                for (let j = 0; j < data.length; j++) {
+                    let team = this.props.teams[i].name;
+                    data[j][team] = 0
+                }
+            }
+
+            for (let i = 0; i < this.state.bugsCurrent.length; i++) {
+                for (let j = 0; j < data.length; j++) {
+                    if (this.state.bugsCurrent[i].priority === data[j].priority) {
+                        data[j][this.state.bugsCurrent[i].team_name] += 1
+                    }
+                }
+            }
+
+            return (
+                <RadarChart cx={300} cy={250} outerRadius={150} width={600} height={400} data={data}>
+                    <PolarGrid/>
+                    <PolarAngleAxis dataKey="priority"/>
+                    <PolarRadiusAxis angle={90}/>
+                    <Radar name="Qa" dataKey="Qa" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
+                    <Radar name="Back" dataKey="Back" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6}/>
+                    <Radar name="Front" dataKey="Front" stroke="#521525" fill="#985721" fillOpacity={0.6}/>
+                    <Radar name="Design" dataKey="Design" stroke="#898989" fill="#a5a5a5" fillOpacity={0.6}/>
+                    <Legend/>
+                </RadarChart>
+            )
+        }
+
+        return <h2>Not enough data for radarChart</h2>
+    }
+
+    renderAreaChart() {
+        if (this.state.bugsCurrent.length) {
+            let data = this.props.teams.map((team) => ({
+                name: team.name,
+                minor: 0,
+                major: 0,
+                critical: 0
+            }));
+            for (let i = 0; i < this.state.bugsCurrent.length; i++) {
+                for (let j = 0; j < data.length; j++) {
+                    if (this.state.bugsCurrent[i].team_name === data[j].name) {
+                        data[j][this.state.bugsCurrent[i].priority] += 1
+                    }
+                }
+            }
+
+            const getPercent = (value, total) => {
+                const ratio = total > 0 ? value / total : 0;
+
+                return toPercent(ratio, 2);
+            };
+
+            const toPercent = (decimal, fixed = 0) => {
+                return `${(decimal * 100).toFixed(fixed)}%`;
+            };
+            const renderTooltipContent = (o) => {
+                const {payload, label} = o;
+                const total = payload.reduce((result, entry) => (result + entry.value), 0);
+
+                return (
+                    <div className="customized-tooltip-content">
+                        <p className="total">{`${label} (Total: ${total})`}</p>
+                        <ul className="list">
+                            {
+                                payload.map((entry, index) => (
+                                    <li key={`item-${index}`} style={{color: entry.color}}>
+                                        {`${entry.name}: ${entry.value}(${getPercent(entry.value, total)})`}
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                );
+            };
+
+            return (
+                <AreaChart width={600} height={400} data={data} stackOffset="expand"
+                           margin={{top: 10, right: 30, left: 0, bottom: 0}}>
+                    <XAxis dataKey="month"/>
+                    <YAxis tickFormatter={toPercent}/>
+                    <Tooltip content={renderTooltipContent}/>
+                    <Area type='monotone' dataKey='minor' stackId="1" stroke='#8884d8' fill='#8884d8'/>
+                    <Area type='monotone' dataKey='major' stackId="1" stroke='#82ca9d' fill='#82ca9d'/>
+                    <Area type='monotone' dataKey='critical' stackId="1" stroke='#ffc658' fill='#ffc658'/>
+                </AreaChart>
+            )
+        }
+
+        return <h2>Not enough data for AreaChart</h2>
+    }
+
     render() {
         return (
             <div className={styles.stat_cont}>
@@ -216,6 +315,8 @@ class Statistic extends Component {
                 <Divider horizontal inverted>Charts</Divider>
                 <div>
                     {this.renderBarChart()}
+                    {this.renderRadarChart()}
+                    {this.renderAreaChart()}
                 </div>
             </div>
         )

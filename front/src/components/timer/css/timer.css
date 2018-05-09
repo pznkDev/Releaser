@@ -1,14 +1,14 @@
 .flipClock {
     display: flex;
     justify-content: space-between;
-    width: 500px;
+    width: 520px;
 }
 
 .flipUnitContainer {
     display: block;
     position: relative;
-    width: 140px;
-    height: 120px;
+    width: 160px;
+    height: 150px;
     -webkit-perspective-origin: 50% 50%;
     perspective-origin: 50% 50%;
     -webkit-perspective: 300px;
@@ -64,8 +64,8 @@
     justify-content: center;
     position: absolute;
     left: 0;
-    width: 140px;
-    height: 60px;
+    width: 160px;
+    height: 75px;
     overflow: hidden;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;

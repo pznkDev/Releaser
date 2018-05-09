@@ -23,7 +23,7 @@ class Poll extends Component {
                         <Timer/>
                     </div>
                     <div className={styles.container_center_modals}>
-                        <Header as='h2' inverted color='grey'>Actions:</Header>
+                        <Header as='h1' inverted >Actions:</Header>
                         <VotePoll/>
                         <hr/>
                         <ReleaseInit/>

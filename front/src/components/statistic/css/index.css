@@ -1,15 +1,38 @@
 .stat_cont{
-    height:100%;
-    width:100%;
+    width: 1140px;
+    margin: 0 auto;
 }
 
 .stat_params_cont{
-    height:250px;
     width:100%;
+}
+
+.stat-params_wrapper {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px;
+    padding-bottom: 25px;
 }
 
 .stat_header_name{
     text-align: center;
     padding-top:30px;
     color: #ffffff;
+}
+
+.chart_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.chart_wrapper > div {
+    margin: 30px 0;
+}
+
+@media only screen and (max-width: 1200px) {
+    .stat_cont {
+        width: 940px;
+    }
 }

@@ -3,7 +3,7 @@ from sqlalchemy import select
 
 from app.models import bug_history
 
-BUGS_LIMIT = 30
+BUGS_LIMIT = 10
 
 
 async def select_bug_history(conn, page):

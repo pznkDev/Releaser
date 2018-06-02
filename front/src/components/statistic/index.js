@@ -69,8 +69,8 @@ class Statistic extends Component {
         let {period, priority, team, bugsCurrent} = this.state;
 
         return (
-            <Grid columns='equal' padded='horizontally'>
-                <Grid.Column>
+            <div className={'stat-params_wrapper'}>
+                <div>
                     <Form inverted>
                         <Header as={'h3'} inverted>
                             Choose timeline
@@ -104,8 +104,8 @@ class Statistic extends Component {
                             />
                         </Form.Field>
                     </Form>
-                </Grid.Column>
-                <Grid.Column>
+                </div>
+                <div>
                     <Form inverted>
                         <Header as={'h3'} inverted>
                             Choose priority
@@ -149,8 +149,8 @@ class Statistic extends Component {
                             />
                         </Form.Field>
                     </Form>
-                </Grid.Column>
-                <Grid.Column>
+                </div>
+                <div>
                     <Form inverted>
                         <Header as={'h3'} inverted>
                             Choose Team
@@ -166,8 +166,8 @@ class Statistic extends Component {
                         </Form.Field>
                         {this.renderTeams()}
                     </Form>
-                </Grid.Column>
-            </Grid>
+                </div>
+            </div>
         )
     }
 
@@ -313,7 +313,7 @@ class Statistic extends Component {
                     {this.renderOptionsMenu()}
                 </div>
                 <Divider horizontal inverted>Charts</Divider>
-                <div>
+                <div className={styles.chart_wrapper}>
                     {this.renderBarChart()}
                     {this.renderRadarChart()}
                     {this.renderAreaChart()}
